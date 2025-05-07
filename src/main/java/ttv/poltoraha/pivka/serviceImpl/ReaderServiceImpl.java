@@ -9,6 +9,7 @@ import ttv.poltoraha.pivka.entity.Quote;
 import ttv.poltoraha.pivka.entity.Reader;
 import ttv.poltoraha.pivka.entity.Reading;
 import ttv.poltoraha.pivka.repository.BookRepository;
+import ttv.poltoraha.pivka.repository.QuoteRepository;
 import ttv.poltoraha.pivka.repository.ReaderRepository;
 import ttv.poltoraha.pivka.service.ReaderService;
 import util.MyUtility;
@@ -17,8 +18,10 @@ import util.MyUtility;
 @RequiredArgsConstructor
 @Transactional
 public class ReaderServiceImpl implements ReaderService {
+    private final QuoteRepository quoteRepository;
     private final ReaderRepository readerRepository;
     private final BookRepository bookRepository;
+
     @Override
     public void createQuote(String username, Integer book_id, String text) {
         val newQuote = new Quote();
@@ -30,10 +33,9 @@ public class ReaderServiceImpl implements ReaderService {
         newQuote.setText(text);
         newQuote.setReader(reader);
 
-        reader.getQuotes().add(newQuote);
-
-        // todo потенциально лучше сейвить quoteRepository. Чем меньше вложенностей у сохраняемой сущности - тем эффективнее это будет происходить.
-        readerRepository.save(reader);
+        // Добавляем QuoteRepository, т.к будет 1 вставка. Если же использовать ReaderRepository,
+        // то из за каскада в связях Reader вставок может быть несколько.
+        quoteRepository.save(newQuote);
     }
 
     @Override
