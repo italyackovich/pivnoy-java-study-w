@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final MyUserRepository myUserRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        val abcd = "sdasdsa";
         val user = myUserRepository.findById(username)
                 .orElseThrow(() -> new EntityNotFoundException("user not found with username = " + username));
 
