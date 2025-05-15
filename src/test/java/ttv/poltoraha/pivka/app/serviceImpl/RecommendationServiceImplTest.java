@@ -8,11 +8,19 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ttv.poltoraha.pivka.controller.ReaderController;
+import ttv.poltoraha.pivka.entity.Author;
+import ttv.poltoraha.pivka.entity.Book;
 import ttv.poltoraha.pivka.entity.Reader;
+import ttv.poltoraha.pivka.entity.Reading;
+import ttv.poltoraha.pivka.repository.AuthorRepository;
+import ttv.poltoraha.pivka.repository.BookRepository;
 import ttv.poltoraha.pivka.repository.ReaderRepository;
+import ttv.poltoraha.pivka.repository.ReadingRepository;
+import ttv.poltoraha.pivka.service.BookService;
 import ttv.poltoraha.pivka.service.ReaderService;
 import ttv.poltoraha.pivka.service.RecommendationService;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ttv.poltoraha.pivka.app.util.TestConst.*;
 
@@ -28,22 +36,38 @@ public class RecommendationServiceImplTest {
     private ReaderRepository readerRepository;
     @Autowired
     private ReaderController readerController;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private ReadingRepository readingRepository;
 
     @BeforeEach
     public void setUp() {
         val reader = new Reader();
-        reader.setUsername("MY_USERNAME");
+        reader.setUsername(USERNAME);
         reader.setPassword("132");
 
         readerRepository.save(reader);
 
+        val author = new Author();
+        author.setId(1);
+
+        authorRepository.save(author);
+
+        val book = new Book();
+        book.setId(1);
+        book.setAuthor(author);
+
+        bookRepository.save(book);
+
+        val reading = new Reading();
+        reading.setReader(reader);
+        reading.setBook(book);
+        readingRepository.save(reading);
+
         readerService.addFinishedBook(USERNAME, 1);
-        readerService.addFinishedBook(USERNAME, 2);
-        readerService.addFinishedBook(USERNAME, 3);
-        readerService.addFinishedBook(USERNAME, 6);
-        readerService.addFinishedBook(USERNAME, 7);
-        readerService.addFinishedBook(USERNAME, 8);
-        readerService.addFinishedBook(USERNAME, 9);
 
         readerController.addQuote(USERNAME, 1, "Quote");
     }
@@ -61,6 +85,7 @@ public class RecommendationServiceImplTest {
     public void checkRecommendQuote() {
         val quotes = recommendationService.recommendQuoteByBook(1);
 
-        assertEquals(quotes.size(), 1);
+        assertThat(quotes).hasSize(1);
+        assertThat(quotes.get(0).getText()).isEqualTo("Quote");
     }
 }
