@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ttv.poltoraha.pivka.entity.Book;
 import ttv.poltoraha.pivka.entity.Quote;
 import ttv.poltoraha.pivka.entity.Reader;
 import ttv.poltoraha.pivka.entity.Reading;
@@ -33,9 +34,9 @@ public class ReaderServiceImpl implements ReaderService {
         newQuote.setText(text);
         newQuote.setReader(reader);
 
-        // Добавляем QuoteRepository, т.к будет 1 вставка. Если же использовать ReaderRepository,
-        // то из за каскада в связях Reader вставок может быть несколько.
-        quoteRepository.save(newQuote);
+        reader.getQuotes().add(newQuote);
+
+        readerRepository.save(reader);
     }
 
     @Override
