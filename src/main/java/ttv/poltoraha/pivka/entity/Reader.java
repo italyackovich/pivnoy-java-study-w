@@ -8,8 +8,8 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="reader")
-@Data
-@ToString
+@Getter
+@Setter
 @DiscriminatorValue("READER")
 public class Reader extends MyUser {
 
