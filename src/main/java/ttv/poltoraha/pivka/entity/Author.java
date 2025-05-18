@@ -12,11 +12,11 @@ import java.util.List;
 @ToString
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String fullName;
     private Double avgRating;
-    @OneToMany(mappedBy="author")
+    @OneToMany(mappedBy="author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Book> books;
 }

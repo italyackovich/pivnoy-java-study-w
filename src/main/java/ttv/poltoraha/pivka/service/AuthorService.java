@@ -7,9 +7,9 @@ import java.util.List;
 // Сервис - это классы с основной логикой. Хорошей практикой является создание интерфейса.
 // Интерфейс позволяет нам удобно расширять функционал или делать несколько реализаций без изменения, например, вызова метода в контроллере
 public interface AuthorService {
-    public void create(Author author);
-    public void delete(Integer id);
-    public void addBook(Integer id, Book book);
-    public void addBooks(Integer id, List<Book> books);
-    public List<Author> getTopAuthorsByTag(String tag, int count);
+    void create(Author author);
+    void delete(Integer id);
+    void addBook(Integer id, Book book);
+    void addBooks(Integer id, List<Book> books);
+    List<Author> getTopAuthorsByTag(String tag, int count);
 }
