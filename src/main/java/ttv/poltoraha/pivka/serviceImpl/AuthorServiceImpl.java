@@ -1,5 +1,6 @@
 package ttv.poltoraha.pivka.serviceImpl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -22,15 +23,18 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
-    // todo как будто надо насрать всякими мапперами
     @Override
     public void create(Author author) {
+        log.info("Request to author repository to create new author {}", author);
         authorRepository.save(author);
+        log.info("Completed request to author repository to create new author {}", author);
     }
 
     @Override
     public void delete(Integer id) {
+        log.info("Request to author repository to delete author by id {}", id);
         authorRepository.deleteById(id);
+        log.info("Completed request to author repository to delete author by id {}", id);
     }
 
     @Override
@@ -50,18 +54,19 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public List<Author> getTopAuthorsByTag(String tag, int count) {
         Pageable pageable = PageRequest.of(0, count);
-        val authors = authorRepository.findTopAuthorsByTag(tag);
 
-        return authorRepository.findTopAuthorsByTag(tag, pageable);
+        log.info("Request to author repository to find top authors by tag {}", tag);
+        val authors = authorRepository.findTopAuthorsByTag(tag, pageable);
+        log.info("Completed request to author repository to find top authors by tag {}", tag);
+
+        return authors;
     }
 
     private Author getOrThrow(Integer id) {
-        val optionalAuthor = authorRepository.findById(id);
-        val author = optionalAuthor.orElse(null);
-
-        if (author == null) {
-            throw new RuntimeException("Author with id = " + id + " not found");
-        }
+        log.info("Request to author repository to find author by id {}", id);
+        val author = authorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Author with id = " + id + " not found"));
+        log.info("Completed request to author repository to find author by id {}", id);
 
         return author;
     }
