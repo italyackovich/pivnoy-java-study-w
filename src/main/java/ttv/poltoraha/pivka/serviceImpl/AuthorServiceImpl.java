@@ -16,24 +16,22 @@ import java.util.List;
 // Имплементации интерфейсов с бизнес-логикой
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     // todo как будто надо насрать всякими мапперами
     @Override
-    @Transactional
     public void create(Author author) {
         authorRepository.save(author);
     }
 
     @Override
-    @Transactional
     public void delete(Integer id) {
         authorRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public void addBooks(Integer id, List<Book> books) {
         val author = getOrThrow(id);
 
@@ -41,7 +39,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public void addBook(Integer id, Book book) {
         val author = getOrThrow(id);
 
@@ -49,7 +46,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public List<Author> getTopAuthorsByTag(String tag, int count) {
         Pageable pageable = PageRequest.of(0, count);
         val authors = authorRepository.findTopAuthorsByTag(tag);

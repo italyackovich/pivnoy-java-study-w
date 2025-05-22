@@ -20,4 +20,6 @@ public interface AuthorRepository extends CrudRepository<Author, Integer> {
 
     @Query("SELECT DISTINCT a FROM author a JOIN a.books b WHERE b.tags LIKE %:tag% ORDER BY a.avgRating DESC, a.id ASC")
     List<Author> findTopAuthorsByTag(@Param("tag") String tag);
+
+    List<Author> findAll();
 }
