@@ -1,13 +1,11 @@
 package ttv.poltoraha.pivka.app.serviceImpl;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import ttv.poltoraha.pivka.entity.Author;
 import ttv.poltoraha.pivka.entity.Book;
@@ -16,7 +14,6 @@ import ttv.poltoraha.pivka.repository.BookRepository;
 import ttv.poltoraha.pivka.serviceImpl.AuthorServiceImpl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
