@@ -1,5 +1,6 @@
 package ttv.poltoraha.pivka.serviceImpl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ttv.poltoraha.pivka.entity.Author;
 import ttv.poltoraha.pivka.entity.Book;
+import ttv.poltoraha.pivka.metrics.CustomMetrics;
 import ttv.poltoraha.pivka.repository.AuthorRepository;
 import ttv.poltoraha.pivka.service.AuthorService;
 
@@ -18,18 +20,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final CustomMetrics metrics;
 
     // todo как будто надо насрать всякими мапперами
     @Override
     @Transactional
     public void create(Author author) {
-        authorRepository.save(author);
+        metrics.recordDbCallTimer(() -> authorRepository.save(author));
     }
 
     @Override
     @Transactional
     public void delete(Integer id) {
-        authorRepository.deleteById(id);
+        metrics.recordDbCallTimer(() -> authorRepository.deleteById(id));
     }
 
     @Override
@@ -52,18 +55,14 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     public List<Author> getTopAuthorsByTag(String tag, int count) {
         Pageable pageable = PageRequest.of(0, count);
-        val authors = authorRepository.findTopAuthorsByTag(tag);
+        val authors = metrics.recordDbCallTimer(() -> authorRepository.findTopAuthorsByTag(tag, pageable));
 
-        return authorRepository.findTopAuthorsByTag(tag, pageable);
+        return authors;
     }
 
     private Author getOrThrow(Integer id) {
-        val optionalAuthor = authorRepository.findById(id);
-        val author = optionalAuthor.orElse(null);
-
-        if (author == null) {
-            throw new RuntimeException("Author with id = " + id + " not found");
-        }
+        val author = metrics.recordDbCallTimer(() -> authorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Author with id = " + id + " not found")));
 
         return author;
     }

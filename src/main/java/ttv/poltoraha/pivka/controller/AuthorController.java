@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ttv.poltoraha.pivka.entity.Author;
 import ttv.poltoraha.pivka.entity.Book;
+import ttv.poltoraha.pivka.metrics.CustomMetrics;
 import ttv.poltoraha.pivka.service.AuthorService;
 
 import java.util.List;
@@ -15,19 +16,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorController {
     private final AuthorService authorService;
+    private final CustomMetrics metrics;
 
     @PostMapping("/create")
     public void createAuthor(@RequestBody Author author) {
+        metrics.incrementRequestCounter();
         authorService.create(author);
     }
 
     @PostMapping("/delete")
     public void deleteAuthorById(@RequestParam Integer id) {
+        metrics.incrementRequestCounter();
         authorService.delete(id);
     }
 
     @PostMapping("/add/books")
     public void addBooksToAuthor(@RequestParam Integer id, @RequestBody List<Book> books) {
+        metrics.incrementRequestCounter();
         authorService.addBooks(id, books);
     }
 }
