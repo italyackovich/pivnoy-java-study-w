@@ -1,6 +1,7 @@
 package ttv.poltoraha.pivka.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import java.util.List;
 // Имплементации интерфейсов с бизнес-логикой
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
