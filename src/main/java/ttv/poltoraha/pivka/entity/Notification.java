@@ -18,4 +18,8 @@ public class Notification {
     private Integer id;
     private String title;
     private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "reader_id")
+    private Reader reader;
 }
