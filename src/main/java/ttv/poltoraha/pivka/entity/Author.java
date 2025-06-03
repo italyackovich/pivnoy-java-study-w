@@ -1,14 +1,15 @@
 package ttv.poltoraha.pivka.entity;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
 // Энтити - это привязка класса к конкретной табличке в БД
 @Entity(name="author")
-@Data
+@Getter
+@Setter
 @ToString
 public class Author {
     @Id

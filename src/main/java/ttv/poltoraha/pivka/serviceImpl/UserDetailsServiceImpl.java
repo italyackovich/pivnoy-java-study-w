@@ -15,7 +15,9 @@ import ttv.poltoraha.pivka.repository.MyUserRepository;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     private final MyUserRepository myUserRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         val user = myUserRepository.findById(username)

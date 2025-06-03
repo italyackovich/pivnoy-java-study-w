@@ -3,9 +3,9 @@ package ttv.poltoraha.pivka.serviceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ttv.poltoraha.pivka.entity.Book;
 import ttv.poltoraha.pivka.entity.Quote;
 import ttv.poltoraha.pivka.entity.Reader;
 import ttv.poltoraha.pivka.entity.Reading;
@@ -22,6 +22,7 @@ public class ReaderServiceImpl implements ReaderService {
     private final QuoteRepository quoteRepository;
     private final ReaderRepository readerRepository;
     private final BookRepository bookRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void createQuote(String username, Integer book_id, String text) {
@@ -58,7 +59,7 @@ public class ReaderServiceImpl implements ReaderService {
     public void createReader(String username, String password) {
         val reader = new Reader();
         reader.setUsername(username);
-        reader.setPassword(password);
+        reader.setPassword(passwordEncoder.encode(password));
 
         readerRepository.save(reader);
     }
