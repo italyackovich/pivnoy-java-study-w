@@ -29,6 +29,10 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quote> quotes;
 
+    public String getTagsString() {
+        return tags;
+    }
+
     public Set<String> getTags() {
         if (tags == null || tags.isEmpty()) {
             return Collections.emptySet();
