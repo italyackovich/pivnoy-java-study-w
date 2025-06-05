@@ -4,10 +4,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="add-foreign-key-my-user-username" author="italyackovich">
-        <addColumn tableName="notification">
-            <column name="my_user_username" type="varchar(128)">
-                <constraints foreignKeyName="fk_notification_my_user" references="app_user(username)"/>
+    <changeSet id="add-new-column-is-new" author="italyackovich">
+        <addColumn tableName="app_user">
+            <column name="is_new" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>

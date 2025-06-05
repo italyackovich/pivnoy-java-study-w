@@ -14,6 +14,7 @@ public class MyUser {
     @Id
     private String username;
     private String password;
+    private boolean isNew = true;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
