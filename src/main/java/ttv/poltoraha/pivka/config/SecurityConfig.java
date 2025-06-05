@@ -26,6 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfig{
     private final UserDetailsServiceImpl userDetailsService;
+    private final CustomAuthenticationSuccessHandler successHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,7 +35,9 @@ public class SecurityConfig{
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())
+                .formLogin(form -> form
+                        .successHandler(successHandler)
+                )
                 .httpBasic(withDefaults())
                 // без этой штуки вам не даст авторизоваться в веб-окошке бд h2
                 .csrf(csrf ->
