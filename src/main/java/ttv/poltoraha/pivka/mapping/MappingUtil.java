@@ -2,8 +2,11 @@ package ttv.poltoraha.pivka.mapping;
 
 import org.springframework.stereotype.Component;
 import ttv.poltoraha.pivka.dao.request.ReviewRequestDto;
+import ttv.poltoraha.pivka.dao.response.BookResponseDto;
 import ttv.poltoraha.pivka.entity.Book;
 import ttv.poltoraha.pivka.entity.Review;
+
+import java.util.List;
 
 // Маппер - класс для того, чтобы превращать наши дто в Entity и наоборот
 @Component
@@ -22,6 +25,16 @@ public class MappingUtil {
         review.setRating(dto.getRating());
 
         return review;
+    }
+
+    public static BookResponseDto toBookResponseDto(Book book) {
+        return BookResponseDto.builder()
+                .id(book.getId())
+                .genre(book.getGenre())
+                .article(book.getArticle())
+                .tags(book.getTagsString())
+                .rating(book.getRating())
+                .build();
     }
 
 }
