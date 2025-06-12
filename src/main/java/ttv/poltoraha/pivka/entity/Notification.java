@@ -20,6 +20,6 @@ public class Notification {
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "reader_id")
-    private Reader reader;
+    @JoinColumn(name = "my_user_username")
+    private MyUser myUser;
 }
