@@ -1,6 +1,7 @@
 package ttv.poltoraha.pivka.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,15 +15,18 @@ import ttv.poltoraha.pivka.service.ReviewService;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    public void createReview(@RequestBody ReviewRequestDto dto) {
+    public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto dto) {
         reviewService.createReview(dto);
+        return ResponseEntity.ok().build();
     }
 
-    public void updateReview(@RequestParam Integer reviewId, @RequestBody ReviewRequestDto dto) {
+    public ResponseEntity<?> updateReview(@RequestParam Integer reviewId, @RequestBody ReviewRequestDto dto) {
         reviewService.updateReview(reviewId, dto);
+        return ResponseEntity.ok().build();
     }
 
-    public void deleteReview(@RequestParam Integer reviewId) {
+    public ResponseEntity<?> deleteReview(@RequestParam Integer reviewId) {
         reviewService.deleteReview(reviewId);
+        return ResponseEntity.ok().build();
     }
 }

@@ -2,6 +2,7 @@ package ttv.poltoraha.pivka.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ttv.poltoraha.pivka.entity.Author;
 import ttv.poltoraha.pivka.entity.Book;
@@ -21,26 +22,29 @@ public class AuthorController {
     private final CustomMetrics metrics;
 
     @PostMapping("/create")
-    public void createAuthor(@RequestBody Author author) {
+    public ResponseEntity<?> createAuthor(@RequestBody Author author) {
         log.info("Received request to create author: {}", author);
         metrics.incrementRequestCounter();
         authorService.create(author);
         log.info("Completed request to create author: {}", author);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/delete")
-    public void deleteAuthorById(@RequestParam Integer id) {
+    public ResponseEntity<?> deleteAuthorById(@RequestParam Integer id) {
         log.info("Received request to delete author: {}", id);
         metrics.incrementRequestCounter();
         authorService.delete(id);
         log.info("Completed request to delete author: {}", id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/add/books")
-    public void addBooksToAuthor(@RequestParam Integer id, @RequestBody List<Book> books) {
+    public ResponseEntity<?> addBooksToAuthor(@RequestParam Integer id, @RequestBody List<Book> books) {
         log.info("Received request to add books {} to author: {}", books, id);
         metrics.incrementRequestCounter();
         authorService.addBooks(id, books);
         log.info("Completed request to add books {} to author: {}", books, id);
+        return ResponseEntity.ok().build();
     }
 }
