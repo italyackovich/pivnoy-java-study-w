@@ -13,10 +13,12 @@ import ttv.poltoraha.pivka.service.AuthorService;
 import ttv.poltoraha.pivka.service.RecommendationService;
 import util.MyUtility;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,7 +87,46 @@ public class RecommendationServiceImpl implements RecommendationService {
      */
     @Override
     public List<Book> recommendBook(String username) {
-        return null;
+        Reader reader = readerRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Reader not found"));
+
+        List<Book> bookList = reader.getReadings().stream()
+                .map(Reading::getBook)
+                .toList();
+
+        Map<String, Long> tagCount = bookList.stream()
+                .flatMap(book -> book.getTags().stream())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        List<String> topTags = tagCount.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(2)
+                .map(Map.Entry::getKey)
+                .toList();
+
+
+        return sortByTags(new ArrayList<>(), topTags);
+    }
+
+    private List<Book> sortByTags(List<Book> books, List<String> tags) {
+        if (!tags.isEmpty()) {
+            String firstTag = tags.get(0);
+            List<Book> topByFirstTag = bookRepository.findByTagsContaining(firstTag).stream()
+                    .sorted(Comparator.comparingDouble(Book::getRating).reversed())
+                    .limit(3)
+                    .toList();
+            books.addAll(topByFirstTag);
+
+            if (tags.size() > 1) {
+                String secondTag = tags.get(1);
+                List<Book> topBySecondTag = bookRepository.findByTagsContaining(secondTag).stream()
+                        .sorted(Comparator.comparingDouble(Book::getRating).reversed())
+                        .limit(2)
+                        .toList();
+                books.addAll(topBySecondTag);
+            }
+        }
+        return books;
     }
 
     /**
