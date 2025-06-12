@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-quote-rating" author="italyackovich">
+        <createTable tableName="quote_ratings">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="false" checkConstraint="value IN ('LIKE', 'DISLIKE')"/>
+            </column>
+            <column name="reader_username" type="varchar(128)">
+                <constraints nullable="false" foreignKeyName="fk_quote_ratings_reader" references="reader(username)"/>
+            </column>
+            <column name="quote_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_quote_ratings_quote" references="quote(id)"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="quote_ratings"
+                             columnNames="reader_username, quote_id"
+                             constraintName="unique_reader_quote"/>
+    </changeSet>
+</databaseChangeLog>

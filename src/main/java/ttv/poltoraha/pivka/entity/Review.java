@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity(name="review")
 @Data
 @Builder
@@ -21,4 +23,7 @@ public class Review {
     private Book book;
     private String text;
     private Integer rating;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewRating> reviewRatings;
 }
