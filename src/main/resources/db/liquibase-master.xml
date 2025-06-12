@@ -10,7 +10,10 @@
     <include file="changelog/v1.0.4_add_new_table_notification.xml" relativeToChangelogFile="true"/>
     <include file="changelog/v1.0.5_add_many_to_one_relation_table_notification.xml" relativeToChangelogFile="true"/>
     <include file="changelog/v1.0.6_add_new_column_is_new_table_app_user.xml" relativeToChangelogFile="true"/>
-<!--    инклудим данные для базы-->
+    <include file="changelog/v1.0.7_add_new_table_quote_rating.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/v1.0.8_add_new_table_review_rating.xml" relativeToChangelogFile="true"/>
+
+    <!--    инклудим данные для базы-->
     <include file="init-data/v1.0.0_init_data_author.xml" relativeToChangelogFile="true"/>
     <include file="init-data/v1.0.1_init_data_book.xml" relativeToChangelogFile="true"/>
 <!--    <include file="init-data/v1.0.2_init_data_user.xml" relativeToChangelogFile="true"/>-->

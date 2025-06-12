@@ -1,10 +1,11 @@
 package ttv.poltoraha.pivka.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity(name="quote")
 @Getter
@@ -21,4 +22,7 @@ public class Quote {
     @JoinColumn(name = "book_id")
     private Book book;
     private String text;
+
+    @OneToMany(mappedBy = "quote", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<QuoteRating> ratingList;
 }

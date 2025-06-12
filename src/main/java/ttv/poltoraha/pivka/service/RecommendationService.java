@@ -8,7 +8,7 @@ import ttv.poltoraha.pivka.entity.Reader;
 import java.util.List;
 
 public interface RecommendationService {
-    public List<Author> recommendAuthor(String username);
-    public List<Book> recommendBook(String username);
-    public List<Quote> recommendQuoteByBook(Integer book_id);
+    List<Author> recommendAuthor(String username);
+    List<Book> recommendBook(String username);
+    List<Quote> recommendQuoteByBook(Integer book_id);
 }
