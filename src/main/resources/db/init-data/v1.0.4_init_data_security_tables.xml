@@ -17,13 +17,13 @@
 
         <insert tableName="app_user">
             <column name="username" value="poltoraha_pivka"/>
-            <column name="password" value="{noop}1"/>
+            <column name="password" value="$2a$10$wMMS/X1oJ26BIQeYWGawreWE4SNMfDJijpFsEYe/NApXax0.pNq/C"/>
             <column name="enabled" valueBoolean="true"/>
             <column name="user_type" value="READER"/>
         </insert>
         <insert tableName="app_user">
             <column name="username" value="username"/>
-            <column name="password" value="password"/>
+            <column name="password" value="$2a$10$wMMS/X1oJ26BIQeYWGawreWE4SNMfDJijpFsEYe/NApXax0.pNq/C"/>
             <column name="enabled" valueBoolean="true"/>
             <column name="user_type" value="READER"/>
         </insert>

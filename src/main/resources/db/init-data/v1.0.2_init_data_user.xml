@@ -2,13 +2,10 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
-    <!--JUNIOR-разработчик. Чел, которому нужен другой чел и опора, чтобы он решал задачки.-->
-    <!--MIDDLE-разработчик. Чел, которому не нужен другой чел. Он может самостоятельно решить задачки.-->
-    <!--SENIOR-разработчик. Чел, которому не нужен другой чел. Чел, который может самостоятельно решить задачки. Чел, который решает задачки самым эффективным способом.-->
     <changeSet id="add-data-user" author="poltoraha_pivka">
         <insert tableName="app_user">
             <column name="username" value="poltoraha_pivka"/>
-            <column name="password" value="1"/>
+            <column name="password" value="$2a$10$wMMS/X1oJ26BIQeYWGawreWE4SNMfDJijpFsEYe/NApXax0.pNq/C"/>
         </insert>
     </changeSet>
 
