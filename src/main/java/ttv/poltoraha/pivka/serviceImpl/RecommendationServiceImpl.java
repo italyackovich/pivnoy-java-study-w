@@ -6,6 +6,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ttv.poltoraha.pivka.entity.*;
+import ttv.poltoraha.pivka.enums.RatingValue;
 import ttv.poltoraha.pivka.repository.BookRepository;
 import ttv.poltoraha.pivka.repository.ReaderRepository;
 import ttv.poltoraha.pivka.repository.ReadingRepository;
@@ -13,6 +14,7 @@ import ttv.poltoraha.pivka.service.AuthorService;
 import ttv.poltoraha.pivka.service.RecommendationService;
 import util.MyUtility;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -151,9 +153,28 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .limit(5)
                 .toList();
 
-        return topReaderList.stream()
+        List<Quote> quoteList = topReaderList.stream()
                 .flatMap(reader -> reader.getQuotes().stream())
                 .filter(quote -> Objects.equals(quote.getBook().getId(), book_id))
                 .toList();
+
+        return getTopQuotes(quoteList, 5);
     }
+
+    private List<Quote> getTopQuotes(List<Quote> quoteList, int limitValue) {
+        return quoteList.stream()
+                .map(quote -> new AbstractMap.SimpleImmutableEntry<>(quote, countLikes(quote)))
+                .sorted(Map.Entry.<Quote, Long>comparingByValue().reversed())
+                .limit(limitValue)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    private long countLikes(Quote quote) {
+        return quote.getRatingList().stream()
+                .filter(quoteRating -> quoteRating.getValue() == RatingValue.LIKE)
+                .count();
+    }
+
+
 }
